@@ -1,13 +1,27 @@
 package com.example.themoviedbwithmvvm
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.themoviedbwithmvvm.MovieListClass.MovieListClass
 import io.reactivex.Observable
 
 class ViewModelClass : ViewModel() {
 
-    val modelClass = ModelClass()
+    private val model = ModelClass()
+    private val liveData = MutableLiveData<MovieListClass>()
+
+    fun getMoviesList(title: String) {
+        model.getMoviesContain(title)
+            .subscribe({
+                liveData.value = it
+            }, {
+                Log.e("e", "")
+            })
+    }
+
+    fun getLiveData(): LiveData<MovieListClass> = liveData
 
 
 //    retrofit.create(RetrofitInterface::class.java)
